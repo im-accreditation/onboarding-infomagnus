@@ -17,7 +17,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUBB_TOKEN }}
         script: |
-          const repoName = 'repository-second-jo'
+          const repoName = 'repository-secon'
           const response = await github.repos.createForAuthenticatedUser({ name: repoName })
           console.log(response.data.html_url)
           core.setOutput('repo_url', response.data.html_url)
@@ -33,7 +33,7 @@ jobs:
     - name: Create Issues
       uses: peter-evans/create-issue-from-file@v1
       with:
-        token: ${{ secrets.GITHUBB_TOKEN }}
+        token: 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
         file-path: $FILES
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
