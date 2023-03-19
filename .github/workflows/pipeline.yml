@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUBB_TOKEN }}
+      ISSUE_TITLE: ok
     steps:
     - name: Checkout Repositoryy
       uses: actions/checkout@v2
@@ -18,7 +19,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUBB_TOKEN }}
         script: |
-          const repoName = 'repository-seconDVblok'
+          const repoName = 'repository-seconDhbjnVblok'
           const response = await github.repos.createForAuthenticatedUser({ name: repoName })
           console.log(response.data.html_url)
           core.setOutput('repo_url', response.data.html_url)
@@ -36,8 +37,7 @@ jobs:
       with:
         GITHUB_TOKEN: $GITHUB_TOKEN
         file-path: $FILES
-        ISSUE_TITLE: Issue starting
+        ISSUE_TITLE: $ISSUE_TITLE
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the files: "
         assignees: octocat
-        
