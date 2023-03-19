@@ -18,7 +18,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUBB_TOKEN }}
         script: |
-          const repoName = 'repository-seconDVblok'
+          const repoName = 'repository-seconDnjhbVblok'
           const response = await github.repos.createForAuthenticatedUser({ name: repoName })
           console.log(response.data.html_url)
           core.setOutput('repo_url', response.data.html_url)
@@ -29,17 +29,12 @@ jobs:
         # Use the 'find' command to locate Word and PDF files
         # Adjust the path and file types to match your requirements
         FILES=$(find docs/ -type f -name "*.docx" -o -name "*.pdf")
-        echo $FILES
-        
-    - name: Print the value of GITHUB_TOKEN
-      run: |
-        import os
-        GITHUB_TOKEN = os.environ['GITHUB_TOKEN']       
+        echo $FILES      
 
     - name: Create Issues    
       uses: peter-evans/create-issue-from-file@v1      
       with:
-        GITHUB_TOKEN: os.environ['GITHUB_TOKEN']
+        GITHUB_TOKEN: $GITHUB_TOKEN
         file-path: $FILES
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
