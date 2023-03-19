@@ -36,6 +36,7 @@ jobs:
       with:
         GITHUB_TOKEN: $GITHUB_TOKEN
         file-path: $FILES
+        ISSUE_TITLE: Issue starting
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
         assignees: octocat
