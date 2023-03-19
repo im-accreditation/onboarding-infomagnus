@@ -10,7 +10,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUBB_TOKEN }}
       ISSUE_TITLE: ok
-      ISSUE_CONTENT_FILEPATH: docs/Issue-0-[GH Surya] Learning Paths and Exams.docx
+      ISSUE_CONTENT_FILEPATH: docs/Issue-1-GitHub Training Manual.pdf
     steps:
     - name: Checkout Repositoryy
       uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUBB_TOKEN }}
         script: |
-          const repoName = 'repository-seedcVbnbzlok'
+          const repoName = 'repository-uytrd'
           const response = await github.repos.createForAuthenticatedUser({ name: repoName })
           console.log(response.data.html_url)
           core.setOutput('repo_url', response.data.html_url)
