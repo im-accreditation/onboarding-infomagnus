@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout Repositoryy
       uses: actions/checkout@v2
 
     - name: Create Repository
