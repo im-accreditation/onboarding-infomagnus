@@ -1,17 +1,15 @@
 name: Create New Repo with Issues
 
 on:
-  push:
-    branches:
-      - main     
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Enter a message to print'
+        required: true    
 jobs:
   create_repo:
     runs-on: ubuntu-latest  
     steps:
-      - name: Prompt for Name
-        id: input_step
-        run: |
-          echo "::set-output name=name::$(read -p 'What is your name? ' name; echo $name)"    
       - name: Checkout Code
         uses: actions/checkout@v2     
 
@@ -22,7 +20,7 @@ jobs:
 
       - name: Create New Repository
         run: |
-          repo_name="my-new-repo-${{ env.INPUT_NAME }}"
+          repo_name="my-new-repo-${{ github.event.inputs.message }}"
           description="This is my new repository."
           curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
                -d "{\"name\":\"$repo_name\",\"description\":\"$description\"}" \
@@ -32,8 +30,8 @@ jobs:
 
       - name: Clone New Repository
         run: |
-          git clone "https://github.com/suryaraghava80/my-new-repo-.git"
-          cd "my-new-repo-"
+          git clone "https://github.com/suryaraghava80/my-new-repo-${{ github.event.inputs.message }}.git"
+          cd "my-new-repo-${{ github.event.inputs.message }}"
 
       - name: Loop through files in folder
         run: |
@@ -45,6 +43,6 @@ jobs:
             curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
                  -H "Content-Type: application/json" \
                  -d "$json" \
-                 "https://api.github.com/repos/suryaraghava80/my-new-repo-/issues"
+                 "https://api.github.com/repos/suryaraghava80/my-new-repo-${{ github.event.inputs.message }}/issues"
           done
         shell: bash
