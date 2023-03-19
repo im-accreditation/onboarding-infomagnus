@@ -31,7 +31,7 @@ jobs:
 
     - name: Loop through files in folder
       run: |
-         for file in ./docs/*.pdf ./docs/*.docx
+         for file in ./docs/*.docx
          do
           title=$(basename "$file")
           body=$(pandoc "$file")
