@@ -8,13 +8,12 @@ jobs:
   create_repo:
     runs-on: ubuntu-latest  
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        
       - name: Prompt for Name
         id: input_step
         run: |
-          echo "::set-output name=name::$(read -p 'What is your name? ' name; echo $name)"        
+          echo "::set-output name=name::$(read -p 'What is your name? ' name; echo $name)"    
+      - name: Checkout Code
+        uses: actions/checkout@v2     
 
       - name: Install Dependencies
         run: |
@@ -33,12 +32,12 @@ jobs:
 
       - name: Clone New Repository
         run: |
-          git clone "https://github.com/${{ github.repository }}.git"
+          git clone "https://github.com/$repo_name.git"
           cd "$repo_name"
 
       - name: Loop through files in folder
         run: |
-          for file in ../docs/*.pdf ../docs/*.docx
+          for file in ../docs/*.docx
           do
             title=$(basename "$file")
             body=$(pandoc "$file")
