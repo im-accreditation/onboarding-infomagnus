@@ -27,7 +27,7 @@ jobs:
       run: |
         # Use the 'find' command to locate Word and PDF files
         # Adjust the path and file types to match your requirements
-        FILES=$(find /docs -type f -name "*.docx" -o -name "*.pdf")
+        FILES=$(find docs/ -type f -name "*.docx" -o -name "*.pdf")
         echo $FILES
 
     - name: Create Issues
