@@ -7,7 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUBB_TOKEN }}
     steps:
     - name: Checkout Repositoryy
       uses: actions/checkout@v2
@@ -29,12 +30,18 @@ jobs:
         # Adjust the path and file types to match your requirements
         FILES=$(find docs/ -type f -name "*.docx" -o -name "*.pdf")
         echo $FILES
+        
+    - name: Print the value of GITHUB_TOKEN
+      run: |
+        import os
+        GITHUB_TOKEN = os.environ['GITHUB_TOKEN']       
 
-    - name: Create Issues
-      uses: peter-evans/create-issue-from-file@v1
+    - name: Create Issues    
+      uses: peter-evans/create-issue-from-file@v1      
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUBB_TOKEN }}
+        GITHUB_TOKEN: os.environ['GITHUB_TOKEN']
         file-path: $FILES
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
         assignees: octocat
+        
