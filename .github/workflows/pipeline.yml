@@ -15,7 +15,7 @@ jobs:
     - name: Create Repository
       uses: actions/github-script@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUBB_TOKEN }}
         repository: my-new-repo
         visibility: private
 
@@ -29,7 +29,7 @@ jobs:
     - name: Create Issues
       uses: peter-evans/create-issue-from-file@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUBB_TOKEN }}
         file-path: $FILES
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
