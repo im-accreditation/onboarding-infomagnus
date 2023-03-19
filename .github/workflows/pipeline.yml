@@ -38,6 +38,6 @@ jobs:
         file-path: $FILES
         ISSUE_TITLE: Issue starting
         title-prefix: "Issue: "
-        body-prefix: "This issue was automatically created based on the file: "
+        body-prefix: "This issue was automatically created based on the files: "
         assignees: octocat
         
