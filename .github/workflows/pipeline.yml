@@ -12,12 +12,16 @@ jobs:
     - name: Checkout Repositoryy
       uses: actions/checkout@v2
 
-    - name: Create Repository
+    - name: Create repository for new user
       uses: actions/github-script@v4
       with:
         github-token: ${{ secrets.GITHUBB_TOKEN }}
-        repository: my-new-repo
-        visibility: private
+        script: |
+          const repoName = 'repository-second'
+          const response = await github.repos.createForAuthenticatedUser({ name: repoName })
+          console.log(response.data.html_url)
+          core.setOutput('repo_url', response.data.html_url)
+
 
     - name: Find Word and PDF Files
       run: |
@@ -29,7 +33,7 @@ jobs:
     - name: Create Issues
       uses: peter-evans/create-issue-from-file@v1
       with:
-        token: ${{ secrets.GITHUBB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         file-path: $FILES
         title-prefix: "Issue: "
         body-prefix: "This issue was automatically created based on the file: "
