@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Create Repository
-      uses: peter-evans/create-repo@v1
+      uses: actions/github-script@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         repository: my-new-repo
