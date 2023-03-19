@@ -1,44 +1,51 @@
-name: Create Repository and Assign Issues
+name: Create New Repo with Issues
 
 on:
   push:
     branches:
-      - main
+      - main     
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUBB_TOKEN }}
-      ISSUE_TITLE: ok
-      ISSUE_CONTENT_FILEPATH: docs/*
+  create_repo:
+    runs-on: ubuntu-latest  
     steps:
-    - name: Checkout Repositoryy
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        
+      - name: Prompt for Name
+        id: input_step
+        run: |
+          echo "::set-output name=name::$(read -p 'What is your name? ' name; echo $name)"        
 
-    - name: Create repository for new user
-      uses: actions/github-script@v4
-      with:
-        github-token: ${{ secrets.GITHUBB_TOKEN }}
-        script: |
-          const repoName = 'reposedbhgqvd'
-          const response = await github.repos.createForAuthenticatedUser({ name: repoName })
-          console.log(response.data.html_url)
-          core.setOutput('repo_url', response.data.html_url)
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y pandoc jq
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
-    - name: Loop through files in folder
-      run: |
-         for file in ./docs/*.docx
-         do
-          title=$(basename "$file")
-          body=$(pandoc "$file")
-          json=$(echo '{}' | jq --arg title "$title" --arg body "$body" '.title=$title | .body=$body')
+      - name: Create New Repository
+        run: |
+          repo_name="my-new-repo-${{ env.INPUT_NAME }}"
+          description="This is my new repository."
           curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
-               -H "Content-Type: application/json" \
-               -d "$json" \
-               "https://api.github.com/repos/${{ github.repository }}/issues"
+               -d "{\"name\":\"$repo_name\",\"description\":\"$description\"}" \
+               "https://api.github.com/user/repos"
+        env:
+          INPUT_NAME: ${{ steps.input_step.outputs.name }}               
+
+      - name: Clone New Repository
+        run: |
+          git clone "https://github.com/${{ github.repository }}.git"
+          cd "$repo_name"
+
+      - name: Loop through files in folder
+        run: |
+          for file in ../docs/*.pdf ../docs/*.docx
+          do
+            title=$(basename "$file")
+            body=$(pandoc "$file")
+            json=$(echo '{}' | jq --arg title "$title" --arg body "$body" '.title=$title | .body=$body')
+            curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
+                 -H "Content-Type: application/json" \
+                 -d "$json" \
+                 "https://api.github.com/repos/${{ github.repository }}/issues"
           done
-      shell: bash
+        shell: bash
