@@ -24,13 +24,13 @@ jobs:
           description="This is my new repository."
           curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
                -d "{\"name\":\"$repo_name\",\"description\":\"$description\"}" \
-               "https://api.github.com/orgs/im-sandbox-suryaraghava80/repos"
+               "https://api.github.com/orgs/im-accreditation/repos"
         env:
           INPUT_NAME: ${{ steps.input_step.outputs.name }}               
 
       - name: Clone New Repository
         run: |
-          git clone "https://github.com/im-sandbox-suryaraghava80/ps-accreditation-${{ github.event.inputs.username }}.git"
+          git clone "https://github.com/im-accreditation/ps-accreditation-${{ github.event.inputs.username }}.git"
           cd "ps-accreditation-${{ github.event.inputs.username }}"
 
       - name: Loop through files in folder
@@ -43,6 +43,6 @@ jobs:
             curl -H "Authorization: token ${{ secrets.GITHUBB_TOKEN }}" \
                  -H "Content-Type: application/json" \
                  -d "$json" \
-                 "https://api.github.com/repos/im-sandbox-suryaraghava80/ps-accreditation-${{ github.event.inputs.username }}/issues"
+                 "https://api.github.com/repos/im-accreditation/ps-accreditation-${{ github.event.inputs.username }}/issues"
           done
         shell: bash
